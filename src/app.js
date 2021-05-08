@@ -9,6 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default async (fastify, opts) => {
+  fastify.register(import("../src/plugins/index.js"));
   fastify.register(AutoLoad, {
     dir: join(__dirname, "Routes"),
   });
