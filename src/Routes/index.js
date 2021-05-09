@@ -1,3 +1,27 @@
+const postOptions = {
+  schema: {
+    body: {
+      type: "object",
+      required: ["genre"],
+      genre: {
+        type: "string",
+      },
+    },
+    reponse: {
+      200: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            id: { type: "number" },
+            genre: { type: "string" },
+          },
+        },
+      },
+    },
+  },
+};
+
 export default async (fastify, opts) => {
   const genres = fastify.music();
   fastify.get("/", async (req, reply) => {
@@ -13,7 +37,7 @@ export default async (fastify, opts) => {
     }
   });
 
-  fastify.post("/", async function (req, reply) {
+  fastify.post("/", postOptions, async function (req, reply) {
     const { genre } = req.body;
     if (!genre) {
       reply.code(404).send("NOT FOUND!");
